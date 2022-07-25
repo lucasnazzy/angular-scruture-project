@@ -8,7 +8,8 @@ import { of } from 'rxjs';
 })
 export class AddressComponent implements OnInit {
   public myTable: ITable[] = [];
-  public tableClean: ITable[] = [];
+  public copyMyTable: ITable[] = [];
+  public isAsc: boolean = true;
   constructor() {}
 
   ngOnInit(): void {
@@ -24,7 +25,6 @@ export class AddressComponent implements OnInit {
         number: 33,
         road: 'Rua Doubleit',
         state: 'São Pauo',
-        isAsc: true,
       },
       {
         id: 2,
@@ -33,12 +33,11 @@ export class AddressComponent implements OnInit {
         number: 45,
         road: 'Rua Doubleit',
         state: 'Rio de Janeiro',
-        isAsc: true,
       },
     ];
 
     this.myTable = table;
-    this.tableClean = this.myTable;
+    this.copyMyTable = this.myTable;
   }
 
   insertRow() {}
@@ -47,21 +46,24 @@ export class AddressComponent implements OnInit {
     this.myTable.pop();
   }
 
-  order(isAsc: boolean) {
-    console.log(isAsc);
+  changeOrderValue() {
+    this.isAsc = !this.isAsc;
 
-    if (isAsc == true) {
-      this.myTable.sort();
+    if (this.isAsc == true) {
+      this.myTable = this.copyMyTable;
+    } else if (this.isAsc == false) {
+      this.myTable = this.myTable.slice(0).reverse();
       console.log(this.myTable);
-    } else {
     }
   }
 
   validate() {}
 
-  search() {}
+  searchItem(event: any) {}
 
-  clean() {}
+  resetTableDefault() {
+    this.myTable = this.copyMyTable;
+  }
 }
 
 export interface ITable {
@@ -71,5 +73,4 @@ export interface ITable {
   city: string;
   state: string;
   cep: number;
-  isAsc: boolean;
 }
